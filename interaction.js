@@ -3,6 +3,7 @@
 function DnD(canvas, interactor) {
     // Définir ici les attributs de la 'classe'
     this.canvas = canvas;
+    this.interactor = interactor;
 
     this.initXCoord = 0;
     this.initYCoord = 0;
@@ -14,27 +15,24 @@ function DnD(canvas, interactor) {
     // Developper les 3 fonctions gérant les événements
     this.mouseDown = function (evt) {
         this.isPressed = true;
-        this.initXCoord = getMousePosition(this.canvas,evt).x;
-        this.initYCoord = getMousePosition(this.canvas,evt).y;
-        console.log(this.initXCoord);
-        console.log(this.initYCoord);
+        this.initXCoord = getMousePosition(this.canvas, evt).x;
+        this.initYCoord = getMousePosition(this.canvas, evt).y;
+        this.interactor.onInteractionStart(this);
     }.bind(this);
 
     this.mouseMove = function (evt) {
         if (this.isPressed) {
-            this.finalXCoord = getMousePosition(this.canvas,evt).x;
-            this.finalYCoord = getMousePosition(this.canvas,evt).y;
-            console.log(this.finalXCoord);
-            console.log(this.finalYCoord);
+            this.finalXCoord = getMousePosition(this.canvas, evt).x;
+            this.finalYCoord = getMousePosition(this.canvas, evt).y;
+            this.interactor.onInteractionUpdate(this);
         }
     }.bind(this);
 
     this.mouseUp = function (evt) {
         this.isPressed = false;
-        this.finalXCoord = getMousePosition(this.canvas,evt).x;
-        this.finalYCoord = getMousePosition(this.canvas,evt).y;
-        console.log(this.finalXCoord);
-        console.log(this.finalYCoord);
+        this.finalXCoord = getMousePosition(this.canvas, evt).x;
+        this.finalYCoord = getMousePosition(this.canvas, evt).y;
+        this.interactor.onInteractionEnd(this);
 
     }.bind(this);
 
