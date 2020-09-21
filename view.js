@@ -2,6 +2,7 @@
 Rectangle.prototype.paint = function (ctx) {
     ctx.lineWidth = this.epaisseur;
     ctx.strokeStyle = this.couleur;
+    ctx.beginPath();
     ctx.rect(this.initX, this.initY, this.largeur, this.hauteur);
     ctx.stroke();
 };

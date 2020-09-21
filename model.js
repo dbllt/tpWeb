@@ -1,10 +1,10 @@
 // Implémenter ici les 4 classes du modèle.
 // N'oubliez pas l'héritage !
 
+
 function Drawing() {
     this.forms = [];
 }
-
 
 function Form(epaisseur, couleur) {
     this.epaisseur = epaisseur;
@@ -28,5 +28,6 @@ function Rectangle(initX, initY, largeur, hauteur, epaisseur, couleur) {
     Form.call(this, epaisseur, couleur);
 
 }
+Rectangle.prototype = new Form();
 
 
