@@ -1,33 +1,26 @@
-var editingMode = {rect: 0, line: 1};
+const editingMode = {rect: 0, line: 1};
 
 function Pencil(ctx, drawing, canvas) {
     this.currEditingMode = editingMode.line;
-    this.currLineWidth = 5;
-    this.currColour = '#000000';
     this.currentShape = 0;
 
-    this.truc = 0;
-
     this.ctx = ctx;
-    // Liez ici les widgets à la classe pour modifier les attributs présents ci-dessus.
 
     new DnD(canvas, this);
 
-    // Implémentez ici les 3 fonctions onInteractionStart, onInteractionUpdate et onInteractionEnd
-
     this.onInteractionStart = function (dnd) {
         if (document.getElementById("butRect").checked) {
-            this.currentShape = "Rectangle";
+            this.currEditingMode = editingMode.rect;
         } else {
-            this.currentShape = "Line";
+            this.currEditingMode = editingMode.line;
         }
 
-        if (this.currentShape === "Rectangle") {
-            this.truc = new Rectangle(dnd.initXCoord, dnd.initYCoord, computeWidth(dnd.initXCoord, dnd.finalXCoord), computeHeight(dnd.initYCoord, dnd.finalYCoord),
+        if (this.currEditingMode === editingMode.rect) {
+            this.currentShape = new Rectangle(dnd.initXCoord, dnd.initYCoord, computeWidth(dnd.initXCoord, dnd.finalXCoord), computeHeight(dnd.initYCoord, dnd.finalYCoord),
                 document.getElementById("spinnerWidth").value, document.getElementById("colour").value);
 
         } else {
-            this.truc = new Line(dnd.initXCoord, dnd.initYCoord, dnd.finalXCoord, dnd.finalYCoord,
+            this.currentShape = new Line(dnd.initXCoord, dnd.initYCoord, dnd.finalXCoord, dnd.finalYCoord,
                 document.getElementById("spinnerWidth").value, document.getElementById("colour").value);
         }
 
@@ -38,14 +31,14 @@ function Pencil(ctx, drawing, canvas) {
         canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawing.paint(ctx)
-        if (this.currentShape === "Rectangle") {
-            this.truc.largeur = computeWidth(dnd.initXCoord, dnd.finalXCoord);
-            this.truc.hauteur = computeHeight(dnd.initYCoord, dnd.finalYCoord);
-            this.truc.paint(this.ctx);
+        if (this.currEditingMode === editingMode.rect) {
+            this.currentShape.largeur = computeWidth(dnd.initXCoord, dnd.finalXCoord);
+            this.currentShape.hauteur = computeHeight(dnd.initYCoord, dnd.finalYCoord);
+            this.currentShape.paint(this.ctx);
         } else {
-            this.truc.initX2 = dnd.finalXCoord;
-            this.truc.initY2 = dnd.finalYCoord;
-            this.truc.paint(this.ctx);
+            this.currentShape.initX2 = dnd.finalXCoord;
+            this.currentShape.initY2 = dnd.finalYCoord;
+            this.currentShape.paint(this.ctx);
 
         }
 
@@ -54,20 +47,20 @@ function Pencil(ctx, drawing, canvas) {
 
     this.onInteractionEnd = function (dnd) {
 
-        if (this.currentShape === "Rectangle") {
-            this.truc.largeur = computeWidth(dnd.initXCoord, dnd.finalXCoord);
-            this.truc.hauteur = computeHeight(dnd.initYCoord, dnd.finalYCoord);
-            this.truc.paint(this.ctx);
-            drawing.forms.push(this.truc);
+        if (this.currEditingMode === editingMode.rect) {
+            this.currentShape.largeur = computeWidth(dnd.initXCoord, dnd.finalXCoord);
+            this.currentShape.hauteur = computeHeight(dnd.initYCoord, dnd.finalYCoord);
+            this.currentShape.paint(this.ctx);
+            drawing.forms.push(this.currentShape);
             drawing.paint(this.ctx);
-            updateShapeList(this.truc, "rec");
+            updateShapeList(this.currentShape, "rec");
         } else {
-            this.truc.initX2 = dnd.finalXCoord;
-            this.truc.initY2 = dnd.finalYCoord;
-            this.truc.paint(this.ctx);
-            drawing.forms.push(this.truc);
+            this.currentShape.initX2 = dnd.finalXCoord;
+            this.currentShape.initY2 = dnd.finalYCoord;
+            this.currentShape.paint(this.ctx);
+            drawing.forms.push(this.currentShape);
             drawing.paint(this.ctx);
-            updateShapeList(this.truc, "line");
+            updateShapeList(this.currentShape, "line");
 
         }
     }.bind(this);

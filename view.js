@@ -1,4 +1,3 @@
-// Implémenter ici les fonctions paint à ajouter dans chacune des classes du modèle.
 Rectangle.prototype.paint = function (ctx) {
     ctx.lineWidth = this.epaisseur;
     ctx.strokeStyle = this.couleur;
@@ -30,37 +29,56 @@ shapeList = []
 lineCount = 1;
 recCount = 1;
 
-updateShapeList = function (truc, type) {
-    shapeList.push(truc);
-    var element = document.getElementById("shapeList");
-    var li = document.createElement("li");
-    var btn = document.createElement("button");
+updateShapeList = function (shape, type) {
+    shapeList.push(shape);
+    const element = document.getElementById("shapeList");
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "btn btn-default";
-    var span = document.createElement("span");
+    const span = document.createElement("span");
     span.className = "glyphicon glyphicon-remove-sign"
     btn.appendChild(span);
+    var oldColors = [];
+    btn.onmouseenter = function () {
+        drawing.forms.forEach(element => {
+            if (element != shape) {
+                oldColors.push(element.couleur);
+                element.couleur = "rgba(0, 0,0, 0.2)";
+            }
+        });
+
+
+        canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        drawing.paint(ctx)
+    }
+    btn.onmouseout = function () {
+        drawing.forms.forEach(element => {
+            if (element != shape) {
+                element.couleur = oldColors.pop();
+            }
+
+        });
+
+        canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        drawing.paint(ctx)
+    }
     btn.onclick = function () {
 
-        // First method to remove
-        //const index = drawing.forms.indexOf(truc);
-        //if (index > -1) {
-        //   drawing.forms.splice(index, 1);
-        //}
-
-        //Second method to remove
         drawing.forms = drawing.forms.filter(function (e) {
-            return e !== truc
+            return e !== shape
         })
 
         canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawing.paint(ctx)
 
-        var d = btn.parentNode;
+        const d = btn.parentNode;
         d.parentElement.removeChild(d);
     }
-    var p = document.createElement("p");
+    const p = document.createElement("p");
 
     li.appendChild(btn);
     li.appendChild(p)

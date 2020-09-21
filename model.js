@@ -1,7 +1,3 @@
-// Implémenter ici les 4 classes du modèle.
-// N'oubliez pas l'héritage !
-
-
 function Drawing() {
     this.forms = [];
 }
@@ -18,6 +14,7 @@ function Line(initX, initY, initX2, initY2, epaisseur, couleur) {
     this.initY2 = initY2;
     Form.call(this, epaisseur, couleur);
 }
+
 Line.prototype = new Form();
 
 function Rectangle(initX, initY, largeur, hauteur, epaisseur, couleur) {
@@ -28,6 +25,7 @@ function Rectangle(initX, initY, largeur, hauteur, epaisseur, couleur) {
     Form.call(this, epaisseur, couleur);
 
 }
+
 Rectangle.prototype = new Form();
 
 
