@@ -16,6 +16,15 @@ Line.prototype.paint = function (ctx) {
 };
 
 
+Circle.prototype.paint = function (ctx) {
+    ctx.lineWidth = this.epaisseur;
+    ctx.strokeStyle = this.couleur;
+    ctx.beginPath();
+    ctx.arc(this.initX, this.initY, this.radius, this.startAngle, this.endAngle);
+    ctx.stroke();
+};
+
+
 Drawing.prototype.paint = function (ctx) {
     ctx.fillStyle = '#F0F0F0'; // set canvas' background color
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -28,6 +37,8 @@ Drawing.prototype.paint = function (ctx) {
 shapeList = []
 lineCount = 1;
 recCount = 1;
+circCount = 1;
+
 
 updateShapeList = function (shape, type) {
     shapeList.push(shape);
@@ -39,11 +50,9 @@ updateShapeList = function (shape, type) {
     const span = document.createElement("span");
     span.className = "glyphicon glyphicon-remove-sign"
     btn.appendChild(span);
-    var oldColors = [];
     btn.onmouseenter = function () {
         drawing.forms.forEach(element => {
             if (element != shape) {
-                oldColors.push(element.couleur);
                 element.couleur = "rgba(0, 0,0, 0.2)";
             }
         });
@@ -55,10 +64,7 @@ updateShapeList = function (shape, type) {
     }
     btn.onmouseout = function () {
         drawing.forms.forEach(element => {
-            if (element != shape) {
-                element.couleur = oldColors.pop();
-            }
-
+            element.couleur = element.couleurBackup;
         });
 
         canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
@@ -68,8 +74,16 @@ updateShapeList = function (shape, type) {
     btn.onclick = function () {
 
         drawing.forms = drawing.forms.filter(function (e) {
-            return e !== shape
-        })
+            return e !== shape;
+        });
+
+        shapeList = shapeList.filter(function (e) {
+            return e !== shape;
+        });
+
+        drawing.forms.forEach(element => {
+            element.couleur = element.couleurBackup;
+        });
 
         canvas.getContext('2d').fillStyle = '#F0F0F0'; // set canvas' background color
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -85,10 +99,14 @@ updateShapeList = function (shape, type) {
     if (type === "rec") {
         p.innerHTML = "Rectangle " + recCount;
         recCount++;
-    } else {
+    } else if (type === "line") {
         p.innerHTML = "Line " + lineCount;
         lineCount++;
 
+    } else {
+
+        p.innerHTML = "Circle " + circCount;
+        circCount++;
     }
     element.appendChild(li);
 
