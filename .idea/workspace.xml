@@ -21,10 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae83da42-b3b1-4f92-99da-692399964c03" name="Default Changelist" comment="All done except rectangle bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/canvas.html" beforeDir="false" afterPath="$PROJECT_DIR$/canvas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/view.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +60,7 @@
       <workItem from="1600692901442" duration="7275000" />
       <workItem from="1600939997311" duration="4281000" />
       <workItem from="1601290945904" duration="2258000" />
+      <workItem from="1604768416698" duration="641000" />
     </task>
     <task id="LOCAL-00001" summary="Drag-n-Drop">
       <created>1600334271950</created>
